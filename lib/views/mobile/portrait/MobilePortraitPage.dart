@@ -1,8 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:kalamtv_web/widgets/PhoneHeaderFooter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
+
+import 'package:kalamtv_web/widgets/PhoneHeaderFooter.dart';
 
 class MobilePortraitPage extends StatefulWidget {
   @override
@@ -34,6 +34,13 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
     super.dispose();
   }
 
+  void _pageChanger(int page) {
+    setState(() {
+      _activePage = page.toDouble();
+      _pageController.jumpToPage(page - 1);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double _screenHeight = MediaQuery.of(context).size.height;
@@ -41,12 +48,17 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
     double _screenRatio = _screenHeight > _screenWidth
         ? _screenHeight / _screenWidth
         : _screenWidth / _screenHeight;
-    print("Height: $_screenHeight");
-    print("Width : $_screenWidth");
-    print("Ratio : $_screenRatio");
+
+    ResponsiveWidgets.init(
+      context,
+      height: 1920, // Optional
+      width: 1080, // Optional
+      allowFontScaling: true, // Optional
+    );
 
     return PhoneHeaderFooter(
       activePage: _activePage,
+      pageChanger: _pageChanger,
       child: Positioned(
         child: PageView(
           controller: _pageController,
@@ -147,16 +159,104 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
             Container(
               height: _screenHeight,
               width: _screenWidth,
-              child: Column(
-                children: <Widget>[
-                  AutoSizeText(
-                    "DAKWAH ANDA INGIN DILIPUT?",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w700,
+              child: ResponsiveWidgets.builder(
+                allowFontScaling: true,
+                height: 1920,
+                width: 1080,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    //----------------------- Title -----------------------//
+
+                    TextResponsive(
+                      "DAKWAH ANDA\nINGIN DILIPUT?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.75,
+                        fontSize: 90,
+                        height: 1,
+                      ),
                     ),
-                  )
-                ],
+                    SizedBoxResponsive(
+                      height: 10,
+                    ),
+                    //----------------------- Subtitle -----------------------//
+                    TextResponsive(
+                      "hubungi kami di nomor berikut:",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 55,
+                        letterSpacing: -0.75,
+                      ),
+                    ),
+                    //----------------------- Phone -----------------------//
+                    ContainerResponsive(
+                      height: 135,
+                      width: 680,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(
+                        vertical: _screenRatio > _ratioTreshold ? 75 : 55,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFF81fbb8),
+                            Color(0xFF28c76f),
+                          ],
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icon/phone.png',
+                            width: 30,
+                          ),
+                          SizedBoxResponsive(width: 30),
+                          TextResponsive(
+                            "+62.816.197.4846",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 60,
+                              letterSpacing: -0.75,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //----------------------- Donasi Title -----------------------//
+                    TextResponsive(
+                      "belanjakan sebagian harta anda\nuntuk dakwah di media sosial:",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 50,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+
+                    //----------------------- Donasi Subtitle -----------------------//
+                    TextResponsive(
+                      "Donasi: Rekening BNI syariah\n4 2019 2020 4 a.n. KALAM TV",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 50,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               // color: Colors.teal.withOpacity(0.5),
             ),
