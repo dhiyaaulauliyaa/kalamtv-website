@@ -89,7 +89,7 @@ class _MainPageState extends State<MainPage> {
               child: ScreenTypeLayout(
                 breakpoints: ScreenBreakpoints(
                   desktop: 900,
-                  tablet: 650,
+                  tablet: 550,
                   watch: 250,
                 ),
                 desktop: DesktopPage(),
