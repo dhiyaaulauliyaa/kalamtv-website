@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:kalamtv_web/widgets/PhoneBaseWidgets.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
 
-import 'package:kalamtv_web/widgets/PhoneHeaderFooter.dart';
 
 class MobilePortraitPage extends StatefulWidget {
   @override
@@ -56,13 +56,14 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
       allowFontScaling: true, // Optional
     );
 
-    return PhoneHeaderFooter(
+    return PhoneBaseWidgets(
       activePage: _activePage,
       pageChanger: _pageChanger,
       child: Positioned(
         child: PageView(
           controller: _pageController,
           children: <Widget>[
+            
             //----------------------- First Page -----------------------//
             Container(
               height: _screenHeight,
@@ -167,7 +168,6 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     //----------------------- Title -----------------------//
-
                     TextResponsive(
                       "DAKWAH ANDA\nINGIN DILIPUT?",
                       textAlign: TextAlign.center,
@@ -182,6 +182,7 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
                     SizedBoxResponsive(
                       height: 10,
                     ),
+
                     //----------------------- Subtitle -----------------------//
                     TextResponsive(
                       "hubungi kami di nomor berikut:",
@@ -192,6 +193,7 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
                         letterSpacing: -0.75,
                       ),
                     ),
+
                     //----------------------- Phone -----------------------//
                     ContainerResponsive(
                       height: 135,
@@ -258,7 +260,6 @@ class _MobilePortraitPageState extends State<MobilePortraitPage> {
                   ],
                 ),
               ),
-              // color: Colors.teal.withOpacity(0.5),
             ),
           ],
         ),

@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xFF3748ac),
         accentColor: Color(0xFF90d2e5),
         secondaryHeaderColor: Color(0xFFaab5da),
+        backgroundColor: Color(0xFF141a2a),
         fontFamily: 'ProximaNova',
       ),
     );
@@ -38,23 +39,17 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     double _screenHeight = MediaQuery.of(context).size.height;
     double _screenWidth = MediaQuery.of(context).size.width;
+    double _screenRatio = _screenHeight > _screenWidth
+        ? _screenHeight / _screenWidth
+        : _screenWidth / _screenHeight;
+
+    double _ratioTreshold = 1.3;
 
     return Scaffold(
       body: Container(
         height: _screenHeight,
         width: _screenWidth,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            stops: [0.0, 0.8],
-            colors: [
-              Color.fromRGBO(76, 105, 255, 0.2),
-              Color.fromRGBO(42, 250, 223, 0.05),
-            ],
-          ),
-        ),
-        // color: Colors.blue,
+        color: Theme.of(context).backgroundColor,
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -65,9 +60,9 @@ class _MainPageState extends State<MainPage> {
                     ? RotatedBox(
                         quarterTurns: 1,
                         child: FittedBox(
-                          fit: BoxFit.fitHeight,
+                          fit: BoxFit.cover,
                           child: Opacity(
-                            opacity: 0.3,
+                            opacity: 0.2,
                             child: Image.asset(
                               'assets/img/grunge.png',
                             ),
@@ -75,9 +70,9 @@ class _MainPageState extends State<MainPage> {
                         ),
                       )
                     : FittedBox(
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.cover,
                         child: Opacity(
-                          opacity: 0.3,
+                          opacity: 0.2,
                           child: Image.asset(
                             'assets/img/grunge.png',
                           ),
@@ -92,7 +87,9 @@ class _MainPageState extends State<MainPage> {
                   tablet: 550,
                   watch: 250,
                 ),
-                desktop: DesktopPage(),
+                desktop: _screenRatio > _ratioTreshold
+                    ? DesktopPage()
+                    : TabletPage(),
                 tablet: TabletPage(),
                 mobile: OrientationLayoutBuilder(
                   portrait: (context) => MobilePortraitPage(),
